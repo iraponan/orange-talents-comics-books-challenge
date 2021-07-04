@@ -1,8 +1,6 @@
 package br.com.iraponan.orangetalentscomicsbookschallenge.controllers;
 
-import br.com.iraponan.orangetalentscomicsbookschallenge.models.dto.UsuarioDto;
 import br.com.iraponan.orangetalentscomicsbookschallenge.models.Usuario;
-import br.com.iraponan.orangetalentscomicsbookschallenge.repositories.UsuarioRepositories;
 import br.com.iraponan.orangetalentscomicsbookschallenge.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +9,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("usuario")

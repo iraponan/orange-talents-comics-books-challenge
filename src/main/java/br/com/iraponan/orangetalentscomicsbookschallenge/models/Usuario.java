@@ -2,12 +2,10 @@ package br.com.iraponan.orangetalentscomicsbookschallenge.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,7 +13,7 @@ import java.util.List;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_usuario;
+    private Long idUsuario;
 
     @Column(nullable = false)
     @NotNull
@@ -38,7 +36,8 @@ public class Usuario {
     @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
     private @Past LocalDate dataNascimento;
 
-    @ManyToMany
+    @OneToMany
+    @JoinColumn
     private List<Comic> comics;
 
     @Deprecated
@@ -54,7 +53,7 @@ public class Usuario {
     }
 
     public Long getId_usuario() {
-        return id_usuario;
+        return idUsuario;
     }
 
     public String getNome() {

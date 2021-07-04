@@ -1,12 +1,9 @@
 package br.com.iraponan.orangetalentscomicsbookschallenge.service;
 
 import br.com.iraponan.orangetalentscomicsbookschallenge.models.Usuario;
-import br.com.iraponan.orangetalentscomicsbookschallenge.models.dto.UsuarioDto;
 import br.com.iraponan.orangetalentscomicsbookschallenge.repositories.UsuarioRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UsuarioService {

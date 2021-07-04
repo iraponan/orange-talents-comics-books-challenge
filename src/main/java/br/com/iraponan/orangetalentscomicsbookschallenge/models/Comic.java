@@ -1,5 +1,7 @@
 package br.com.iraponan.orangetalentscomicsbookschallenge.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
@@ -10,7 +12,7 @@ import java.util.List;
 public class Comic {
     @Id
     @Column(nullable = false)
-    private Long id_comic;
+    private Long idComic;
 
     @Column(nullable = false)
     private String titulo;
@@ -29,24 +31,29 @@ public class Comic {
     @JoinColumn(name = "comic_id_comic")
     private List<Autor> autor;
 
+    @ManyToOne
+    @JsonIgnore
+    private Usuario usuario;
+
     @Deprecated
     public Comic() {
     }
 
-    public Comic(String titulo, BigDecimal preco, String isbn, String descricao, List<Autor> autor) {
+    public Comic(String titulo, BigDecimal preco, String isbn, String descricao, List<Autor> autor, Usuario usuario) {
         this.titulo = titulo;
         this.preco = preco;
         this.isbn = isbn;
         this.descricao = descricao;
         this.autor = autor;
+        this.usuario = usuario;
+    }
+
+    public Long getIdComic() {
+        return idComic;
     }
 
     public String getTitulo() {
         return titulo;
-    }
-
-    public Long getId_comic() {
-        return id_comic;
     }
 
     public void setTitulo(String titulo) {
@@ -83,5 +90,13 @@ public class Comic {
 
     public void setAutor(List<Autor> autor) {
         this.autor = autor;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
