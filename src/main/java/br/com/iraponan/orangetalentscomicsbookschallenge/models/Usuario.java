@@ -1,12 +1,12 @@
 package br.com.iraponan.orangetalentscomicsbookschallenge.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -35,20 +35,22 @@ public class Usuario {
     private String cpf;
 
     @Column(nullable = false)
-    private @Past Date dataNascimento;
+    @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
+    private @Past LocalDate dataNascimento;
 
-    @OneToMany(mappedBy = "usuario")
-    private List<Comic> comicsList;
+    @ManyToMany
+    private List<Comic> comics;
 
     @Deprecated
     public Usuario() {
     }
 
-    public Usuario(@NotNull @NotBlank String nome, @NotNull @NotBlank @Email String email, @NotNull @NotBlank @CPF String cpf, @Past Date dataNascimento) {
+    public Usuario(String nome, String email, String cpf, LocalDate dataNascimento, List<Comic> comics) {
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
+        this.comics = comics;
     }
 
     public Long getId_usuario() {
@@ -79,30 +81,19 @@ public class Usuario {
         this.cpf = cpf;
     }
 
-    public Date getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
-    public List<Comic> getComicsList() {
-        return comicsList;
+    public List<Comic> getComics() {
+        return comics;
     }
 
-    public void setComicsList(List<Comic> comicsList) {
-        this.comicsList = comicsList;
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "id_usuario=" + id_usuario +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", dataNascimento=" + dataNascimento +
-                '}';
+    public void setComics(List<Comic> comics) {
+        this.comics = comics;
     }
 }

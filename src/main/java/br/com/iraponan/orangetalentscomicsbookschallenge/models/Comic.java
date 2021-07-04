@@ -1,23 +1,23 @@
 package br.com.iraponan.orangetalentscomicsbookschallenge.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "comic_books")
 public class Comic {
     @Id
     @Column(nullable = false)
-    private Long id_comics;
+    private Long id_comic;
 
     @Column(nullable = false)
     private String titulo;
 
     @Column(nullable = false)
+    @DecimalMin(value = "0.0")
     private BigDecimal preco;
-
-    @Column(nullable = false)
-    private String autores;
 
     @Column(nullable = false)
     private String isbn;
@@ -25,34 +25,28 @@ public class Comic {
     @Column(nullable = false)
     private String descricao;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    @OneToMany
+    @JoinColumn(name = "comic_id_comic")
+    private List<Autor> autor;
 
     @Deprecated
     public Comic() {
     }
 
-    public Comic(Long id_comics, String titulo, BigDecimal preco, String autores, String isbn, String descricao, Usuario usuario) {
-        this.id_comics = id_comics;
+    public Comic(String titulo, BigDecimal preco, String isbn, String descricao, List<Autor> autor) {
         this.titulo = titulo;
         this.preco = preco;
-        this.autores = autores;
         this.isbn = isbn;
         this.descricao = descricao;
-        this.usuario = usuario;
-    }
-
-    public Long getId_comics() {
-        return id_comics;
-    }
-
-    public void setId_comics(Long id_comics) {
-        this.id_comics = id_comics;
+        this.autor = autor;
     }
 
     public String getTitulo() {
         return titulo;
+    }
+
+    public Long getId_comic() {
+        return id_comic;
     }
 
     public void setTitulo(String titulo) {
@@ -65,14 +59,6 @@ public class Comic {
 
     public void setPreco(BigDecimal preco) {
         this.preco = preco;
-    }
-
-    public String getAutores() {
-        return autores;
-    }
-
-    public void setAutores(String autores) {
-        this.autores = autores;
     }
 
     public String getIsbn() {
@@ -91,24 +77,11 @@ public class Comic {
         this.descricao = descricao;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public List<Autor> getAutor() {
+        return autor;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    @Override
-    public String toString() {
-        return "Comic{" +
-                "id_comics=" + id_comics +
-                ", titulo='" + titulo + '\'' +
-                ", preco=" + preco +
-                ", autores='" + autores + '\'' +
-                ", isbn='" + isbn + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", usuario=" + usuario +
-                '}';
+    public void setAutor(List<Autor> autor) {
+        this.autor = autor;
     }
 }

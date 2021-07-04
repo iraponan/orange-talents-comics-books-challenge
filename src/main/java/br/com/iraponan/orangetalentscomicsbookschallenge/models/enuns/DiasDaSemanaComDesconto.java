@@ -1,4 +1,4 @@
-package br.com.iraponan.orangetalentscomicsbookschallenge.enuns;
+package br.com.iraponan.orangetalentscomicsbookschallenge.models.enuns;
 
 public enum DiasDaSemanaComDesconto {
     DOMINGO(false),

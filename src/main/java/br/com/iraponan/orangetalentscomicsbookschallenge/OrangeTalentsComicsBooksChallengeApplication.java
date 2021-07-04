@@ -1,6 +1,7 @@
 package br.com.iraponan.orangetalentscomicsbookschallenge;
 
-import br.com.iraponan.orangetalentscomicsbookschallenge.enuns.DiasDaSemanaComDesconto;
+import br.com.iraponan.orangetalentscomicsbookschallenge.config.Paran;
+import br.com.iraponan.orangetalentscomicsbookschallenge.models.enuns.DiasDaSemanaComDesconto;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -11,7 +12,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
 @SpringBootApplication
 @EnableFeignClients
@@ -39,7 +39,10 @@ public class OrangeTalentsComicsBooksChallengeApplication {
         System.out.println(url + dado + id + "?ts=" + ts + "&apikey=" + publicKey + "&hash=" +
                 new BigInteger(1,m.digest()).toString(16));
 
+        System.out.println(Paran.urlCompleta);
+
         //Verifica se tem desconto hoje
+        System.out.print("Hoje tem desconto: ");
         System.out.println(DiasDaSemanaComDesconto.valueOf(weekDay(new GregorianCalendar()).toUpperCase()).isDiaDeDesconto());
     }
 
