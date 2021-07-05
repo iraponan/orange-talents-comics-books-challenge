@@ -18,15 +18,27 @@ public class Autor {
     @Column(nullable = false)
     private String nome;
 
-    @Deprecated
     public Autor() {
     }
 
-    public Autor(String nome) {
+    public Autor(Comic comic, String nome) {
+        this.comic = comic;
         this.nome = nome;
+    }
+
+    public Comic getComic() {
+        return comic;
+    }
+
+    public void setComic(Comic comic) {
+        this.comic = comic;
     }
 
     public String getNome() {
         return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

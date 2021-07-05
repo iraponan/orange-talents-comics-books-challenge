@@ -10,7 +10,14 @@ public class MarvelPrecoDto {
         this.price = price;
     }
 
+    public MarvelPrecoDto() {
+    }
+
     public BigDecimal getPrice() {
         return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

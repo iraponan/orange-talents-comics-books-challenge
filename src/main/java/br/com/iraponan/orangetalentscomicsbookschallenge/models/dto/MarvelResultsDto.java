@@ -2,13 +2,20 @@ package br.com.iraponan.orangetalentscomicsbookschallenge.models.dto;
 
 public class MarvelResultsDto {
 
-    private ComicDto comicDto;
+    private MarvelComicDto marvelComicDto;
 
-    public MarvelResultsDto(ComicDto comicDto) {
-        this.comicDto = comicDto;
+    public MarvelResultsDto(MarvelComicDto marvelComicDto) {
+        this.marvelComicDto = marvelComicDto;
     }
 
-    public ComicDto getComicDto() {
-        return comicDto;
+    public MarvelResultsDto() {
+    }
+
+    public MarvelComicDto getMarvelComicDto() {
+        return marvelComicDto;
+    }
+
+    public void setMarvelComicDto(MarvelComicDto marvelComicDto) {
+        this.marvelComicDto = marvelComicDto;
     }
 }

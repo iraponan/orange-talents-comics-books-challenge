@@ -8,7 +8,14 @@ public class MarvelDto {
         this.data = data;
     }
 
+    public MarvelDto() {
+    }
+
     public MarvelDataDto getData() {
         return data;
+    }
+
+    public void setData(MarvelDataDto data) {
+        this.data = data;
     }
 }

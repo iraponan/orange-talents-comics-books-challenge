@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "comic_books")
 public class Comic {
     @Id
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idComic;
 
     @Column(nullable = false)
@@ -35,7 +35,6 @@ public class Comic {
     @JsonIgnore
     private Usuario usuario;
 
-    @Deprecated
     public Comic() {
     }
 

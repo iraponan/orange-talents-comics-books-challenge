@@ -37,10 +37,9 @@ public class Usuario {
     private @Past LocalDate dataNascimento;
 
     @OneToMany
-    @JoinColumn
+    @JoinColumn(name = "usuario_id_usuario")
     private List<Comic> comics;
 
-    @Deprecated
     public Usuario() {
     }
 

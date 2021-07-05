@@ -1,14 +1,23 @@
 package br.com.iraponan.orangetalentscomicsbookschallenge.models.dto;
 
+import java.util.List;
+
 public class MarvelDataDto {
 
-    private MarvelResultsDto results;
+    private List<MarvelComicDto> results;
 
-    public MarvelDataDto(MarvelResultsDto results) {
+    public MarvelDataDto(List<MarvelComicDto> results) {
         this.results = results;
     }
 
-    public MarvelResultsDto getResults() {
+    public MarvelDataDto() {
+    }
+
+    public List<MarvelComicDto> getResults() {
         return results;
+    }
+
+    public void setResults(List<MarvelComicDto> results) {
+        this.results = results;
     }
 }
