@@ -1,13 +1,13 @@
 package br.com.iraponan.orangetalentscomicsbookschallenge.models.enuns;
 
 public enum DiasDaSemanaComDesconto {
-    DOMINGO(false),
-    SEGUNDA(true),
-    TERÇA(true),
-    QUARTA(true),
-    QUINTA(true),
-    SEXTA(true),
-    SÁBADO(false);
+    DOM(false),
+    SEG(true),
+    TER(true),
+    QUA(true),
+    QUI(true),
+    SEX(true),
+    SÁB(false);
 
     boolean diaDeDesconto;
 

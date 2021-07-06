@@ -1,7 +1,7 @@
 package br.com.iraponan.orangetalentscomicsbookschallenge.controllers;
 
-import br.com.iraponan.orangetalentscomicsbookschallenge.models.Comic;
 import br.com.iraponan.orangetalentscomicsbookschallenge.models.dto.ComicDto;
+import br.com.iraponan.orangetalentscomicsbookschallenge.models.dto.UsuarioComicDto;
 import br.com.iraponan.orangetalentscomicsbookschallenge.service.ComicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ public class ComicController {
     private ComicService comicService;
 
     @PostMapping
-    public ResponseEntity<?> cadastrarComic(@RequestBody ComicDto comicDto, UriComponentsBuilder builder) {
+    public ResponseEntity<?> cadastrarComic(@RequestBody UsuarioComicDto usuarioComicDto, UriComponentsBuilder builder) {
         try {
-            URI uri = builder.path("/comic/{id}").buildAndExpand(comicService.comicSave(comicDto).getIdComic()).toUri();
+            URI uri = builder.path("/comic/{id}").buildAndExpand(comicService.comicSave(usuarioComicDto).getIdComic()).toUri();
             return ResponseEntity.created(uri).build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,7 +29,7 @@ public class ComicController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Comic> getComic(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<ComicDto> getComic(@PathVariable(value = "id") Long id) {
         try {
             return ResponseEntity.ok().body(comicService.getComic(id));
         } catch (Exception e) {

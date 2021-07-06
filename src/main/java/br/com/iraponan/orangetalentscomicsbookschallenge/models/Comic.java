@@ -14,6 +14,10 @@ public class Comic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idComic;
 
+    @ManyToOne
+    @JsonIgnore
+    private Usuario usuario;
+
     @Column(nullable = false)
     private String titulo;
 
@@ -21,34 +25,38 @@ public class Comic {
     @DecimalMin(value = "0.0")
     private BigDecimal preco;
 
-    @Column(nullable = false)
-    private String isbn;
-
-    @Column(nullable = false)
-    private String descricao;
-
     @OneToMany
     @JoinColumn(name = "comic_id_comic")
     private List<Autor> autor;
 
-    @ManyToOne
-    @JsonIgnore
-    private Usuario usuario;
+    @Column(nullable = false)
+    private String isbn;
+
+    @Column(nullable = false, columnDefinition="TEXT")
+    private String descricao;
 
     public Comic() {
     }
 
-    public Comic(String titulo, BigDecimal preco, String isbn, String descricao, List<Autor> autor, Usuario usuario) {
+    public Comic(Usuario usuario, String titulo, BigDecimal preco, List<Autor> autor, String isbn, String descricao) {
+        this.usuario = usuario;
         this.titulo = titulo;
         this.preco = preco;
+        this.autor = autor;
         this.isbn = isbn;
         this.descricao = descricao;
-        this.autor = autor;
-        this.usuario = usuario;
     }
 
     public Long getIdComic() {
         return idComic;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getTitulo() {
@@ -67,6 +75,14 @@ public class Comic {
         this.preco = preco;
     }
 
+    public List<Autor> getAutor() {
+        return autor;
+    }
+
+    public void setAutor(List<Autor> autor) {
+        this.autor = autor;
+    }
+
     public String getIsbn() {
         return isbn;
     }
@@ -81,21 +97,5 @@ public class Comic {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public List<Autor> getAutor() {
-        return autor;
-    }
-
-    public void setAutor(List<Autor> autor) {
-        this.autor = autor;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 }

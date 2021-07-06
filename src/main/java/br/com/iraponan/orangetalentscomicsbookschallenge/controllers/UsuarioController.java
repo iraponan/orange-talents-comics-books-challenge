@@ -1,5 +1,6 @@
 package br.com.iraponan.orangetalentscomicsbookschallenge.controllers;
 
+import br.com.iraponan.orangetalentscomicsbookschallenge.exceptions.CadastroUsuarioException;
 import br.com.iraponan.orangetalentscomicsbookschallenge.models.Usuario;
 import br.com.iraponan.orangetalentscomicsbookschallenge.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class UsuarioController {
         try {
             URI uri = builder.path("/usuario/{id}").buildAndExpand(usuarioService.usuarioSave(usuario).getId_usuario()).toUri();
             return ResponseEntity.created(uri).build();
-        } catch (Exception e) {
+        } catch (CadastroUsuarioException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
         }
