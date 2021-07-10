@@ -4,13 +4,15 @@ import java.util.List;
 
 public class MarvelComicDto {
 
+    private Long id;
     private String title;
     private List<MarvelPrecoDto> prices;
     private MarvelAutoresDto creators;
     private String isbn;
     private String description;
 
-    public MarvelComicDto(String title, List<MarvelPrecoDto> prices, MarvelAutoresDto creators, String isbn, String description) {
+    public MarvelComicDto(Long id, String title, List<MarvelPrecoDto> prices, MarvelAutoresDto creators, String isbn, String description) {
+        this.id = id;
         this.title = title;
         this.prices = prices;
         this.creators = creators;
@@ -18,7 +20,12 @@ public class MarvelComicDto {
         this.description = description;
     }
 
-    public MarvelComicDto() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {

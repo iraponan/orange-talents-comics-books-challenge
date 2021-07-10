@@ -20,7 +20,7 @@ public class ComicController {
     @PostMapping
     public ResponseEntity<?> cadastrarComic(@RequestBody UsuarioComicDto usuarioComicDto, UriComponentsBuilder builder) {
         try {
-            URI uri = builder.path("/comic/{id}").buildAndExpand(comicService.comicSave(usuarioComicDto).getIdComic()).toUri();
+            URI uri = builder.path("/comic/{id}").buildAndExpand(comicService.comicSave(usuarioComicDto).getId()).toUri();
             return ResponseEntity.created(uri).build();
         } catch (Exception e) {
             e.printStackTrace();

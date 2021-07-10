@@ -1,6 +1,7 @@
 package br.com.iraponan.orangetalentscomicsbookschallenge.models.dto;
 
 import br.com.iraponan.orangetalentscomicsbookschallenge.models.Autor;
+import br.com.iraponan.orangetalentscomicsbookschallenge.models.Comic;
 import br.com.iraponan.orangetalentscomicsbookschallenge.models.Usuario;
 import br.com.iraponan.orangetalentscomicsbookschallenge.models.enuns.DiasDaSemanaComDesconto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,15 +11,16 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.text.DateFormatSymbols;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class ComicDto {
 
     @JsonIgnore
     private Usuario usuario;
+
+    @NotNull
+    @NotBlank
+    private Long comicId;
 
     @NotNull
     @NotBlank
@@ -29,7 +31,7 @@ public class ComicDto {
     @DecimalMin(value = "0.0")
     private BigDecimal preco;
 
-    private List<Autor> autors;
+    private List<Autor> autores;
 
     @NotNull
     @NotBlank
@@ -39,19 +41,23 @@ public class ComicDto {
     @NotBlank
     private String descricao;
 
-    @JsonIgnore
-    private boolean descontoAtivo = false;
+    private String diaDeDesconto;
+
+    private Boolean descontoAtivo = false;
 
     public ComicDto() {
     }
 
-    public ComicDto(Usuario usuario, String titulo, BigDecimal preco, List<Autor> autors, String isbn, String descricao) {
+    public ComicDto(Usuario usuario, Long comicId, String titulo, BigDecimal preco, List<Autor> autores, String isbn, String descricao, String diaDeDesconto, Boolean descontoAtivo) {
         this.usuario = usuario;
+        this.comicId = comicId;
         this.titulo = titulo;
         this.preco = preco;
-        this.autors = autors;
+        this.autores = autores;
         this.isbn = isbn;
         this.descricao = descricao;
+        this.diaDeDesconto = diaDeDesconto;
+        this.descontoAtivo = descontoAtivo;
     }
 
     public Usuario getUsuario() {
@@ -60,6 +66,14 @@ public class ComicDto {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Long getComicId() {
+        return comicId;
+    }
+
+    public void setComicId(Long comicId) {
+        this.comicId = comicId;
     }
 
     public String getTitulo() {
@@ -78,12 +92,12 @@ public class ComicDto {
         this.preco = preco;
     }
 
-    public List<Autor> getAutors() {
-        return autors;
+    public List<Autor> getAutores() {
+        return autores;
     }
 
-    public void setAutors(List<Autor> autors) {
-        this.autors = autors;
+    public void setAutores(List<Autor> autores) {
+        this.autores = autores;
     }
 
     public String getIsbn() {
@@ -102,52 +116,78 @@ public class ComicDto {
         this.descricao = descricao;
     }
 
-    public boolean isDescontoAtivo() {
+    public String getDiaDeDesconto() {
+        return diaDeDesconto;
+    }
+
+    public void setDiaDeDesconto(String diaDeDesconto) {
+        this.diaDeDesconto = diaDeDesconto;
+    }
+
+    public Boolean getDescontoAtivo() {
         return descontoAtivo;
     }
 
-    public void desconto(ComicDto comicDto) {
-        this.descontoAtivo = possoDarDesconto();
-        if (isDescontoAtivo()) {
+    public void setDescontoAtivo(Boolean descontoAtivo) {
+        this.descontoAtivo = descontoAtivo;
+    }
+
+    public String isbnDiasComDesconto(ComicDto comicDto) {
+        if (this.getIsbn() == null || this.getIsbn().equals("")){
+            return "";
+        }
+        String finalIsbn = comicDto.getIsbn().substring(comicDto.getIsbn().length() - 1);
+        if (finalIsbn.equals("0") || finalIsbn.equals("1")) {
+            return DiasDaSemanaComDesconto.SEG.getDiaDeDesconto();
+        }
+        if (finalIsbn.equals("2") || finalIsbn.equals("3")) {
+            return DiasDaSemanaComDesconto.TER.getDiaDeDesconto();
+        }
+        if (finalIsbn.equals("4") || finalIsbn.equals("5")) {
+            return DiasDaSemanaComDesconto.QUA.getDiaDeDesconto();
+        }
+        if (finalIsbn.equals("6") || finalIsbn.equals("7")) {
+            return DiasDaSemanaComDesconto.QUI.getDiaDeDesconto();
+        }
+        if (finalIsbn.equals("8") || finalIsbn.equals("9")) {
+            return DiasDaSemanaComDesconto.SEX.getDiaDeDesconto();
+        }
+        return "";
+    }
+
+    public void aplicandoDesconto(ComicDto comicDto) {
+        this.setDescontoAtivo(possoDarDesconto());;
+        if (getDescontoAtivo()) {
             comicDto.preco = comicDto.preco.multiply(BigDecimal.valueOf(0.9));
         }
     }
 
     private boolean possoDarDesconto() {
         GregorianCalendar cal = new GregorianCalendar();
-        boolean diaDaSemanaComdesconto = DiasDaSemanaComDesconto.valueOf(weekDay(cal).toUpperCase()).isDiaDeDesconto();
-        if (diaDaSemanaComdesconto) {
-            if (((this.getIsbn().substring(this.getIsbn().length() - 1, this.getIsbn().length()).equals("0")) ||
-                    this.getIsbn().substring(this.getIsbn().length() - 1, this.getIsbn().length()).equals("1")) &&
-                    (weekDay(cal).toUpperCase().equals(DiasDaSemanaComDesconto.SEG.toString()))) {
-                return true;
-            }
-            if (((this.getIsbn().substring(this.getIsbn().length() - 1, this.getIsbn().length()).equals("2")) ||
-                    this.getIsbn().substring(this.getIsbn().length()- 1, this.getIsbn().length()).equals("3")) &&
-                    (weekDay(cal).toUpperCase().equals(DiasDaSemanaComDesconto.TER.toString()))) {
-                return true;
-            }
-            if (((this.getIsbn().substring(this.getIsbn().length() - 1, this.getIsbn().length()).equals("4")) ||
-                    this.getIsbn().substring(this.getIsbn().length() - 1, this.getIsbn().length()).equals("5")) &&
-                    (weekDay(cal).toUpperCase().equals(DiasDaSemanaComDesconto.QUA.toString()))) {
-                return true;
-            }
-            if (((this.getIsbn().substring(this.getIsbn().length() - 1, this.getIsbn().length()).equals("6")) ||
-                    this.getIsbn().substring(this.getIsbn().length() - 1, this.getIsbn().length()).equals("7")) &&
-                    (weekDay(cal).toUpperCase().equals(DiasDaSemanaComDesconto.QUI.toString()))) {
-                return true;
-            }
-            if (((this.getIsbn().substring(this.getIsbn().length() - 1, this.getIsbn().length()).equals("8")) ||
-                    this.getIsbn().substring(this.getIsbn().length() - 1, this.getIsbn().length()).equals("9")) &&
-                    (weekDay(cal).toUpperCase().equals(DiasDaSemanaComDesconto.SEX.toString()))) {
-                return true;
-            }
+        DiasDaSemanaComDesconto diaDaSemanaComdesconto = DiasDaSemanaComDesconto.valueOf(shortWeekDay(cal).toUpperCase());
+        if (this.getIsbn() == null || this.getIsbn().equals("")){
+            return false;
         }
-        return false;
+        String finalIsbn = this.getIsbn().substring(this.getIsbn().length() - 1);
+        return Arrays.asList(diaDaSemanaComdesconto.getFinalIsbn()).contains(finalIsbn);
     }
 
-    private String weekDay(Calendar cal) {
+    private String shortWeekDay(Calendar cal) {
         cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, new Locale("pt", "BR"));
         return new DateFormatSymbols().getShortWeekdays()[cal.get(GregorianCalendar.DAY_OF_WEEK)];
+    }
+
+    public static ComicDto from(Comic comic) {
+        ComicDto comicDto = new ComicDto();
+        comicDto.setUsuario(comic.getUsuario());
+        comicDto.setComicId(comic.getComicId());
+        comicDto.setTitulo(comic.getTitulo());
+        comicDto.setPreco(comic.getPreco());
+        comicDto.setAutores(comic.getAutor());
+        comicDto.setIsbn(comic.getIsbn());
+        comicDto.setDescricao(comic.getDescricao());
+        comicDto.setDiaDeDesconto(comicDto.isbnDiasComDesconto(comicDto));
+        comicDto.aplicandoDesconto(comicDto);
+        return comicDto;
     }
 }

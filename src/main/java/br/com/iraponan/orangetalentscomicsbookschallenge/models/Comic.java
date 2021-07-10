@@ -12,7 +12,10 @@ import java.util.List;
 public class Comic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idComic;
+    private Long id;
+
+    @Column(nullable = false)
+    private Long comicId;
 
     @ManyToOne
     @JsonIgnore
@@ -26,7 +29,7 @@ public class Comic {
     private BigDecimal preco;
 
     @OneToMany
-    @JoinColumn(name = "comic_id_comic")
+    //@JoinColumn(name = "comic_id")
     private List<Autor> autor;
 
     @Column(nullable = false)
@@ -38,7 +41,8 @@ public class Comic {
     public Comic() {
     }
 
-    public Comic(Usuario usuario, String titulo, BigDecimal preco, List<Autor> autor, String isbn, String descricao) {
+    public Comic(Long comicId, Usuario usuario, String titulo, BigDecimal preco, List<Autor> autor, String isbn, String descricao) {
+        this.comicId = comicId;
         this.usuario = usuario;
         this.titulo = titulo;
         this.preco = preco;
@@ -47,8 +51,16 @@ public class Comic {
         this.descricao = descricao;
     }
 
-    public Long getIdComic() {
-        return idComic;
+    public Long getId() {
+        return id;
+    }
+
+    public Long getComicId() {
+        return comicId;
+    }
+
+    public void setComicId(Long comicId) {
+        this.comicId = comicId;
     }
 
     public Usuario getUsuario() {

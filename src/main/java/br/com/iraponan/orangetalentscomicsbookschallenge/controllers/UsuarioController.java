@@ -4,6 +4,7 @@ import br.com.iraponan.orangetalentscomicsbookschallenge.exceptions.CadastroUsua
 import br.com.iraponan.orangetalentscomicsbookschallenge.models.Usuario;
 import br.com.iraponan.orangetalentscomicsbookschallenge.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -25,16 +26,17 @@ public class UsuarioController {
             return ResponseEntity.created(uri).build();
         } catch (CadastroUsuarioException e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Usuario> getUsuario(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getUsuario(@PathVariable(value = "id") Long id) {
         try {
             return ResponseEntity.ok().body(usuarioService.getUsuario(id));
         } catch (Exception e) {
-            return ResponseEntity.notFound().build();
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado.\nPor favor verifique o id do usuário e tente novamente.");
         }
     }
 }
