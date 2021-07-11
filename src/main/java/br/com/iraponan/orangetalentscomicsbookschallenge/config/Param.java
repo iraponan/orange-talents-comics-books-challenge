@@ -4,8 +4,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class
-Param {
+public class Param {
 
     public static final String privateKey = "f1122ed630f58356b2adae00c243d890247ddc9c";
     public static final String publicKey = "64f731cbafb2e19f4cf9bd4fca2e63bc";

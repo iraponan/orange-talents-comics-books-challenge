@@ -1,4 +1,4 @@
-package br.com.iraponan.orangetalentscomicsbookschallenge.models.enuns;
+package br.com.iraponan.orangetalentscomicsbookschallenge.models.enums;
 
 public enum DiasDaSemanaComDesconto {
     DOM(new String[] {}, ""),

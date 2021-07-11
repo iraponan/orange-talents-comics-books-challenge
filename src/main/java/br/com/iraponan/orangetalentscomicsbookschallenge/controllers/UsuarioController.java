@@ -22,7 +22,7 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<?> cadastroUsuario(@RequestBody @Valid Usuario usuario, UriComponentsBuilder builder) {
         try {
-            URI uri = builder.path("/usuario/{id}").buildAndExpand(usuarioService.usuarioSave(usuario).getId_usuario()).toUri();
+            URI uri = builder.path("/usuario/{id}").buildAndExpand(usuarioService.usuarioSave(usuario).getIdUsuario()).toUri();
             return ResponseEntity.created(uri).build();
         } catch (CadastroUsuarioException e) {
             e.printStackTrace();

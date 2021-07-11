@@ -3,14 +3,15 @@ package br.com.iraponan.orangetalentscomicsbookschallenge.models.dto;
 import br.com.iraponan.orangetalentscomicsbookschallenge.models.Autor;
 import br.com.iraponan.orangetalentscomicsbookschallenge.models.Comic;
 import br.com.iraponan.orangetalentscomicsbookschallenge.models.Usuario;
-import br.com.iraponan.orangetalentscomicsbookschallenge.models.enuns.DiasDaSemanaComDesconto;
+import br.com.iraponan.orangetalentscomicsbookschallenge.models.enums.DiasDaSemanaComDesconto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.text.DateFormatSymbols;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.*;
 
 public class ComicDto {
@@ -132,7 +133,7 @@ public class ComicDto {
         this.descontoAtivo = descontoAtivo;
     }
 
-    public String isbnDiasComDesconto(ComicDto comicDto) {
+    private String isbnDiasComDesconto(ComicDto comicDto) {
         if (this.getIsbn() == null || this.getIsbn().equals("")){
             return "";
         }
@@ -155,7 +156,7 @@ public class ComicDto {
         return "";
     }
 
-    public void aplicandoDesconto(ComicDto comicDto) {
+    private void aplicandoDesconto(ComicDto comicDto) {
         this.setDescontoAtivo(possoDarDesconto());;
         if (getDescontoAtivo()) {
             comicDto.preco = comicDto.preco.multiply(BigDecimal.valueOf(0.9));
@@ -163,8 +164,7 @@ public class ComicDto {
     }
 
     private boolean possoDarDesconto() {
-        GregorianCalendar cal = new GregorianCalendar();
-        DiasDaSemanaComDesconto diaDaSemanaComdesconto = DiasDaSemanaComDesconto.valueOf(shortWeekDay(cal).toUpperCase());
+        DiasDaSemanaComDesconto diaDaSemanaComdesconto = DiasDaSemanaComDesconto.valueOf(shortWeekDay());
         if (this.getIsbn() == null || this.getIsbn().equals("")){
             return false;
         }
@@ -172,9 +172,8 @@ public class ComicDto {
         return Arrays.asList(diaDaSemanaComdesconto.getFinalIsbn()).contains(finalIsbn);
     }
 
-    private String shortWeekDay(Calendar cal) {
-        cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, new Locale("pt", "BR"));
-        return new DateFormatSymbols().getShortWeekdays()[cal.get(GregorianCalendar.DAY_OF_WEEK)];
+    private String shortWeekDay() {
+        return LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.SHORT, new Locale("pt", "BR")).toUpperCase();
     }
 
     public static ComicDto from(Comic comic) {

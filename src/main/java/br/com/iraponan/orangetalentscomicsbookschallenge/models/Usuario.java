@@ -54,7 +54,7 @@ public class Usuario {
         this.comics = comics;
     }
 
-    public Long getId_usuario() {
+    public Long getIdUsuario() {
         return idUsuario;
     }
 

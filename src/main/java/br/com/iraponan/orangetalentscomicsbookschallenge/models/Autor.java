@@ -9,7 +9,8 @@ public class Autor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_autor;
+    @JsonIgnore
+    private Long idAutor;
 
     @ManyToOne
     @JsonIgnore
@@ -24,6 +25,10 @@ public class Autor {
     public Autor(Comic comic, String nome) {
         this.comic = comic;
         this.nome = nome;
+    }
+
+    public Long getIdAutor() {
+        return idAutor;
     }
 
     public Comic getComic() {

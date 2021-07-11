@@ -29,7 +29,7 @@ public class Comic {
     private BigDecimal preco;
 
     @OneToMany
-    //@JoinColumn(name = "comic_id")
+    @JoinColumn(name = "comic_id")
     private List<Autor> autor;
 
     @Column(nullable = false)
